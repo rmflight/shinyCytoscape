@@ -34,7 +34,7 @@ shinyServer(function(input, output) {
   # input$obs is changed. 
   output$view <- reactivePlot(function() {
     dataset <- datasetInput()
-    p <- ggplot(data=dataset, aes(x=area, y=peri)) + geom_point()
+    p <- ggplot(dataset, aes_string(x=names(dataset)[1], y=names(dataset)[2])) + geom_point()
     print(p)
   })
 })
