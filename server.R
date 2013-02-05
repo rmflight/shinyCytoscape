@@ -1,19 +1,20 @@
 require(shiny)
-require(datasets)
-require(ggplot2)
+require(RCytoscape)
+require(graph)
+require(igraph)
 
 # Define server logic required to summarize and view the selected dataset
 shinyServer(function(input, output) {
   
-  # By declaring datasetInput as a reactive function we ensure that:
-  #
-  #  1) It is only called when the inputs it depends on changes
-  #  2) The computation and result are shared by all the callers (it 
-  #     only executes a single time)
-  #  3) When the inputs change and the function is re-executed, the
-  #     new result is compared to the previous result; if the two are
-  #     identical, then the callers are not notified
-  #
+  gTree <- graph.tree(20, mode="out")
+  gLattice <- graph.lattice(length=5, dim=3)
+  
+  gTree <- igraph.to.graphNEL(gTree)
+  gTree <- initEdgeAttribute(gTree, "weight", "numeric", 1)
+    
+  gLattice <- igraph.to.graphNEL(gLattice)
+  gLattice <- initEdgeAttribute(gLattice, "weight", "numeric", 1)
+  
   datasetInput <- reactive(function() {
     switch(input$dataset,
            "rock" = rock,

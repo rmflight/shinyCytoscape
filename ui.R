@@ -12,22 +12,10 @@ shinyUI(pageWithSidebar(
   # area immediately as you type
   sidebarPanel(
     
-    textInput("caption", "Caption:", "Data Summary"),
+    selectInput("dataset", "Choose a graph:", 
+                choices = c("tree", "lattice")),
     
-    selectInput("dataset", "Choose a dataset:", 
-                choices = c("rock", "pressure", "cars")),
-    
-    submitButton("Draw Graph")
-  ),
-  
-  
-  # Show the caption, a summary of the dataset and an HTML table with
-  # the requested number of observations
-  mainPanel(
-    h3(textOutput("caption")), 
-    
-    verbatimTextOutput("summary"), 
-    
-    plotOutput("view")
+    submitButton("Switch Graph")
   )
+  
 ))
