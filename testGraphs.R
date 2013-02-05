@@ -24,12 +24,5 @@ switchGraphs <- function(inGraph, inName="graph"){
   redraw(cyWindow)
 }
 
-cyTree <- CytoscapeWindow("tree", gTree)
-displayGraph(cyTree)
-layoutNetwork(cyTree)
-redraw(cyTree)
-
-cyLattice <- CytoscapeWindow("lattice", gLattice)
-displayGraph(cyLattice)
-layoutNetwork(cyLattice)
-redraw(cyLattice)
+switchGraphs(gTree)
+switchGraphs(gLattice)
