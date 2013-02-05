@@ -15,9 +15,9 @@ shinyUI(pageWithSidebar(
     textInput("caption", "Caption:", "Data Summary"),
     
     selectInput("dataset", "Choose a dataset:", 
-                choices = c("rock", "pressure", "cars"))
+                choices = c("rock", "pressure", "cars")),
     
-    #submitButton("Draw Graph")
+    submitButton("Draw Graph")
   ),
   
   
