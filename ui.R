@@ -16,6 +16,11 @@ shinyUI(pageWithSidebar(
                 choices = c("tree", "lattice")),
     
     submitButton("Switch Graph")
-  )
+  ),
+  
+  mainPanel(
+    h3(textOutput("test"))
+    
+    )
   
 ))

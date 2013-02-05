@@ -15,27 +15,22 @@ shinyServer(function(input, output) {
   gLattice <- igraph.to.graphNEL(gLattice)
   gLattice <- initEdgeAttribute(gLattice, "weight", "numeric", 1)
   
+  cyConnection <- CytoscapeConnection()
+  
+  switchGraphs <- function(inGraph, inName="graph"){
+    deleteAllWindows(cyConnection)
+    cyWindow <- new.CytoscapeWindow(inName, inGraph)
+    displayGraph(cyWindow)
+    layoutNetwork(cyWindow)
+    redraw(cyWindow)
+  }
+  
   datasetInput <- reactive(function() {
     switch(input$dataset,
-           "rock" = rock,
-           "pressure" = pressure,
-           "cars" = cars)
+           "tree" = switchGraphs(gTree),
+           "lattice" = switchGraphs(gLattice))
+    
   })
   
-  # The output$summary depends on the datasetInput reactive function, 
-  # so will be re-executed whenever datasetInput is re-executed 
-  # (i.e. whenever the input$dataset changes)
-  output$summary <- reactivePrint(function() {
-    dataset <- datasetInput()
-    summary(dataset)
-  })
   
-  # The output$view depends on both the databaseInput reactive function
-  # and input$obs, so will be re-executed whenever input$dataset or 
-  # input$obs is changed. 
-  output$view <- reactivePlot(function() {
-    dataset <- datasetInput()
-    p <- ggplot(dataset, aes_string(x=names(dataset)[1], y=names(dataset)[2])) + geom_point()
-    print(p)
-  })
 })
