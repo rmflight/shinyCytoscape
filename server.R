@@ -12,6 +12,13 @@ gTree <- initEdgeAttribute(gTree, "weight", "numeric", 1)
 gLattice <- igraph.to.graphNEL(gLattice)
 gLattice <- initEdgeAttribute(gLattice, "weight", "numeric", 1)
 
+cyBlank <- new.CytoscapeWindow("blank")
+cyTree <- new.CytoscapeWindow("tree", gTree)
+displayGraph(cyTree)
+layoutNetwork(cyWindow)
+cyLattice <- new.CytoscapeWindow("lattice", gLattice)
+raiseWindow(cyBlank)
+
 switchGraphs <- function(inGraph, inName="graph"){
   #browser(expr=TRUE)
   cyWindow <- new.CytoscapeWindow(inName, inGraph)
