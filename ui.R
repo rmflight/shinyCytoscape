@@ -13,13 +13,13 @@ shinyUI(pageWithSidebar(
   sidebarPanel(
     
     selectInput("dataset", "Choose a graph:", 
-                choices = c("tree", "lattice")),
+                choices = c("none","tree", "lattice")),
     
-    submitButton("Switch Graph")
+    submitButton("Apply")
   ),
   
   mainPanel(
-    h3(textOutput("test"))
+    h3(textOutput("graphType"))
     
     )
   
