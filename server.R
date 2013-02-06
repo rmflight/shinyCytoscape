@@ -3,6 +3,26 @@ require(RCytoscape)
 require(graph)
 require(igraph)
 
+initWindow <- function(inGraph, graphName, isBlank=FALSE){
+  if (isBlank) {
+    cyWindow <- new.CytoscapeWindow(title=graphName, graph=new('graphNEL'), overwriteWindow=TRUE)
+  } else {
+    cyWindow <- new.CytoscapeWindow(title=graphName, graph=inGraph, overwriteWindow=TRUE)
+    displayGraph(cyWindow)
+    layoutNetwork(cyWindow)    
+  }
+  return(cyWindow)
+}
+
+switchWindows <- function(inName){
+  #browser(expr=TRUE)
+  cyWindow <- new.CytoscapeWindow(inName, inGraph)
+  displayGraph(cyWindow)
+  layoutNetwork(cyWindow)
+  redraw(cyWindow)
+  return(inName)
+}
+
 gTree <- graph.tree(20, mode="out")
 gLattice <- graph.lattice(length=5, dim=3)
 
@@ -12,11 +32,9 @@ gTree <- initEdgeAttribute(gTree, "weight", "numeric", 1)
 gLattice <- igraph.to.graphNEL(gLattice)
 gLattice <- initEdgeAttribute(gLattice, "weight", "numeric", 1)
 
-cyBlank <- new.CytoscapeWindow("blank")
-cyTree <- new.CytoscapeWindow("tree", gTree)
-displayGraph(cyTree)
-layoutNetwork(cyWindow)
-cyLattice <- new.CytoscapeWindow("lattice", gLattice)
+cyBlank <- initWindow(NULL, "blank", TRUE)
+cyTree <- initWindow(gTree, "tree")
+cyLattice <- initWindow(gLattice, "lattice")
 raiseWindow(cyBlank)
 
 switchGraphs <- function(inGraph, inName="graph"){
@@ -33,13 +51,16 @@ shinyServer(function(input, output) {
   
   output$graphType <- reactive(function() {
     #browser(expr=TRUE)
-    cyConnection <- CytoscapeConnection()
-    deleteAllWindows(cyConnection)
-    graphName <- "none"
-    if (input$dataset == "tree"){
-      graphName <- switchGraphs(gTree, "tree")
+    if (input$dataset == "none"){
+      raiseWindow(cyBlank)
+      graphName <- "none"
+    }
+    else if (input$dataset == "tree"){
+      raiseWindow(cyTree)
+      graphName <- "tree"
     } else if (input$dataset == "lattice"){
-      graphName <- switchGraphs(gLattice, "lattice")
+      raiseWindow(cyLattice)
+      graphName <- "lattice"
     }
     return(graphName)
   })
