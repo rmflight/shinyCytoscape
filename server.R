@@ -32,10 +32,14 @@ gTree <- initEdgeAttribute(gTree, "weight", "numeric", 1)
 gLattice <- igraph.to.graphNEL(gLattice)
 gLattice <- initEdgeAttribute(gLattice, "weight", "numeric", 1)
 
+cyConnection <- CytoscapeConnection()
+hidePanel(cyConnection, "Control")
+
 cyBlank <- initWindow(NULL, "blank", TRUE)
 cyTree <- initWindow(gTree, "tree")
 cyLattice <- initWindow(gLattice, "lattice")
 raiseWindow(cyBlank)
+
 
 switchGraphs <- function(inGraph, inName="graph"){
   #browser(expr=TRUE)
