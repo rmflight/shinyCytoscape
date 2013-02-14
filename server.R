@@ -3,7 +3,7 @@ require(RCytoscape)
 require(graph)
 require(igraph)
 
-initWindow <- function(inGraph, graphName, isBlank=FALSE){
+switchWindow <- function(inGraph, graphName, isBlank=FALSE){
   if (isBlank) {
     cyWindow <- new.CytoscapeWindow(title=graphName, graph=new('graphNEL'), overwriteWindow=TRUE)
   } else {
@@ -12,15 +12,6 @@ initWindow <- function(inGraph, graphName, isBlank=FALSE){
     layoutNetwork(cyWindow)    
   }
   return(cyWindow)
-}
-
-switchWindows <- function(inName){
-  #browser(expr=TRUE)
-  cyWindow <- new.CytoscapeWindow(inName, inGraph)
-  displayGraph(cyWindow)
-  layoutNetwork(cyWindow)
-  redraw(cyWindow)
-  return(inName)
 }
 
 gTree <- graph.tree(20, mode="out")
@@ -35,35 +26,20 @@ gLattice <- initEdgeAttribute(gLattice, "weight", "numeric", 1)
 cyConnection <- CytoscapeConnection()
 hidePanel(cyConnection, "Control")
 
-cyBlank <- initWindow(NULL, "blank", TRUE)
-cyTree <- initWindow(gTree, "tree")
-cyLattice <- initWindow(gLattice, "lattice")
-raiseWindow(cyBlank)
-
-
-switchGraphs <- function(inGraph, inName="graph"){
-  #browser(expr=TRUE)
-  cyWindow <- new.CytoscapeWindow(inName, inGraph)
-  displayGraph(cyWindow)
-  layoutNetwork(cyWindow)
-  redraw(cyWindow)
-  return(inName)
-}
-
 # Define server logic required to summarize and view the selected dataset
 shinyServer(function(input, output) {
   
   output$graphType <- reactive(function() {
     #browser(expr=TRUE)
     if (input$dataset == "none"){
-      raiseWindow(cyBlank)
+      switchWindow(NULL, "none", TRUE)
       graphName <- "none"
     }
     else if (input$dataset == "tree"){
-      raiseWindow(cyTree)
+      switchWindow(gTree, "tree")
       graphName <- "tree"
     } else if (input$dataset == "lattice"){
-      raiseWindow(cyLattice)
+      switchWindow(gLattice, "lattice")
       graphName <- "lattice"
     }
     return(graphName)

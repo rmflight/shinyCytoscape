@@ -17,7 +17,7 @@ shinyUI(pageWithSidebar(
     
     submitButton("Apply")
   ),
-  
+
   mainPanel(
     h3(textOutput("graphType"))
     
