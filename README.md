@@ -14,3 +14,7 @@ To use:
 library(shiny)
 runApp()
 ```
+
+## Notes
+
+For best effect, you want to go in `Cytoscape -> Edit -> Preferences -> Properties -> maximizeViewOnCreate` and change the value to `true`. This makes sure that a **new** window is created at maximum size. Also check the box "Make Current Cytoscape Properties Default" after changing this to have that be the default behavior.
