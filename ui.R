@@ -13,7 +13,7 @@ shinyUI(pageWithSidebar(
   sidebarPanel(
     
     textInput("isSpecial", "Which node is different than the others:", 
-                "none")),
+                "none"),
     
     submitButton("Next Graph")
   ),
