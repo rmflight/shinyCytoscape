@@ -3,6 +3,28 @@ require(RCytoscape)
 require(graph)
 require(igraph)
 
+#' generates a random graph using the barabasi algorithm of growing a graph, and assigns one node a color
+#' 
+#' @param nNodes the number of nodes to have in the graph
+genRandomGraphs <- function(nNodes){
+  tmpGraph <- barabasi.game(nNodes)
+  
+  tmpGraph <- igraph.to.graphNEL(tmpGraph)
+  tmpGraph <- initEdgeAttribute(tmpGraph, "weight", "numeric", 1)
+  
+  tmpGraph <- initNodeAttribute(tmpGraph, "isSpecial", "char", FALSE)
+  
+  # choose one node at random to be special
+  specialNode <- sample(nNodes, 1)
+  nodeData(tmpGraph, as.character(specialNode), "isSpecial") <- TRUE
+  
+  return(list(graph=tmpGraph, isSpecial=specialNode))
+}
+
+nNodes <- floor(rnorm(5, 40, 5))
+
+inputGraphs <- lapply(nNodes, genRandomGraphs)
+
 switchWindow <- function(inGraph, graphName, isBlank=FALSE){
   if (isBlank) {
     cyWindow <- new.CytoscapeWindow(title=graphName, graph=new('graphNEL'), overwriteWindow=TRUE)
