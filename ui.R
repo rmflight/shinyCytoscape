@@ -12,14 +12,14 @@ shinyUI(pageWithSidebar(
   # area immediately as you type
   sidebarPanel(
     
-    selectInput("dataset", "Choose a graph:", 
-                choices = c("none","tree", "lattice")),
+    textInput("isSpecial", "Which node is different than the others:", 
+                "none")),
     
-    submitButton("Apply")
+    submitButton("Next Graph")
   ),
 
   mainPanel(
-    h3(textOutput("graphType"))
+    h4(textOutput("whichGraph"))
     
     )
   

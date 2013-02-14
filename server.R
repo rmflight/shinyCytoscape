@@ -36,20 +36,15 @@ switchWindow <- function(inGraph, graphName, isBlank=FALSE){
   return(cyWindow)
 }
 
-gTree <- graph.tree(20, mode="out")
-gLattice <- graph.lattice(length=5, dim=3)
-
-gTree <- igraph.to.graphNEL(gTree)
-gTree <- initEdgeAttribute(gTree, "weight", "numeric", 1)
-
-gLattice <- igraph.to.graphNEL(gLattice)
-gLattice <- initEdgeAttribute(gLattice, "weight", "numeric", 1)
-
 cyConnection <- CytoscapeConnection()
 hidePanel(cyConnection, "Control")
+CytoscapeWindow("blank", new('graphNEL'), overwriteWindow=TRUE)
 
 # Define server logic required to summarize and view the selected dataset
 shinyServer(function(input, output) {
+  
+  counter <- 0
+  maxCount <- length(inputGraphs)
   
   output$graphType <- reactive(function() {
     #browser(expr=TRUE)
